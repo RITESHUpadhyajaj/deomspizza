@@ -7,7 +7,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { data: user, isLoading } = useGetMe({ query: { retry: false }});
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: user, isLoading } = useGetMe({ query: { retry: false } as any });
   const [location, setLocation] = useLocation();
   const logout = useLogout();
   const queryClient = useQueryClient();

@@ -24,7 +24,8 @@ export default function Menu() {
     available: true,
     category: selectedCategory || undefined,
   });
-  const { data: user } = useGetMe({ query: { retry: false } });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: user } = useGetMe({ query: { retry: false } as any });
   const addCartItem = useAddCartItem();
   const { toast } = useToast();
   const queryClient = useQueryClient();

@@ -11,8 +11,10 @@ import { Minus, Plus, ShoppingCart } from "lucide-react";
 export default function ProductDetail() {
   const [, params] = useRoute("/menu/:id");
   const id = parseInt(params?.id || "0");
-  const { data: product, isLoading } = useGetProduct(id, { query: { enabled: !!id } });
-  const { data: user } = useGetMe({ query: { retry: false } });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: product, isLoading } = useGetProduct(id, { query: { enabled: !!id } as any });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: user } = useGetMe({ query: { retry: false } as any });
   const addCartItem = useAddCartItem();
   const { toast } = useToast();
   const queryClient = useQueryClient();

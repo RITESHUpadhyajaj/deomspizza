@@ -7,7 +7,8 @@ import { useLogout } from "@workspace/api-client-react";
 import { useTheme } from "../ThemeProvider";
 
 export function Navbar() {
-  const { data: user } = useGetMe({ query: { retry: false }});
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: user } = useGetMe({ query: { retry: false } as any });
   const logout = useLogout();
   const queryClient = useQueryClient();
   const [_, setLocation] = useLocation();

@@ -7,7 +7,8 @@ import { CheckCircle2, Clock, Truck, ChefHat, XCircle } from "lucide-react";
 export default function OrderTracking() {
   const [, params] = useRoute("/orders/:id");
   const id = parseInt(params?.id || "0");
-  const { data: order, isLoading } = useGetOrder(id, { query: { enabled: !!id } });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: order, isLoading } = useGetOrder(id, { query: { enabled: !!id } as any });
 
   if (isLoading) return <MainLayout><div className="container py-16">Loading...</div></MainLayout>;
   if (!order) return <MainLayout><div className="container py-16">Order not found</div></MainLayout>;

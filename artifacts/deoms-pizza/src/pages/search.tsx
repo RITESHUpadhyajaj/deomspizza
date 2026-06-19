@@ -10,9 +10,8 @@ import { SearchIcon } from "lucide-react";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: products, isLoading } = useListProducts({ 
-    search: searchTerm || undefined 
-  }, { query: { enabled: searchTerm.length > 0 } });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: products, isLoading } = useListProducts({ search: searchTerm || undefined }, { query: { enabled: searchTerm.length > 0 } as any });
 
   return (
     <MainLayout>

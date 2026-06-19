@@ -7,18 +7,17 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useEffect } from "react";
 
 export default function Home() {
-  const { data: products, isLoading: isLoadingProducts } = useListProducts({ available: true, isFeatured: true });
+  const { data: products, isLoading: isLoadingProducts } = useListProducts({ available: true });
   const { data: categories } = useListCategories();
   const { data: banners } = useListBanners();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
   useEffect(() => {
-    if (emblaApi) {
-      const autoplay = setInterval(() => {
-        emblaApi.scrollNext();
-      }, 4000);
-      return () => clearInterval(autoplay);
-    }
+    if (!emblaApi) return;
+    const autoplay = setInterval(() => {
+      emblaApi.scrollNext();
+    }, 4000);
+    return () => clearInterval(autoplay);
   }, [emblaApi]);
 
   return (

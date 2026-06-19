@@ -39,28 +39,28 @@ export default function Favorites() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {favorites.map(favorite => (
-              <Card key={favorite.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 relative">
-                <Button 
-                  variant="destructive" 
-                  size="icon" 
+            {favorites.map(product => (
+              <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 relative">
+                <Button
+                  variant="destructive"
+                  size="icon"
                   className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full shadow-md"
-                  onClick={() => handleRemove(favorite.productId)}
+                  onClick={() => handleRemove(product.id)}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
                 <div className="relative h-48 bg-muted">
-                  <img src={favorite.product.imageUrl} alt={favorite.product.name} className="w-full h-full object-cover" />
-                  <Badge className="absolute top-2 left-2" variant={favorite.product.isVeg ? "secondary" : "destructive"}>
-                    {favorite.product.isVeg ? "Veg" : "Non-Veg"}
+                  <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+                  <Badge className="absolute top-2 left-2" variant={product.isVeg ? "secondary" : "destructive"}>
+                    {product.isVeg ? "Veg" : "Non-Veg"}
                   </Badge>
                 </div>
                 <CardContent className="p-4">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-bold text-lg line-clamp-1 pr-2">{favorite.product.name}</h3>
-                    <span className="font-bold text-primary shrink-0">₹{favorite.product.basePrice}</span>
+                    <h3 className="font-bold text-lg line-clamp-1 pr-2">{product.name}</h3>
+                    <span className="font-bold text-primary shrink-0">₹{product.basePrice}</span>
                   </div>
-                  <Link href={`/menu/${favorite.product.id}`}>
+                  <Link href={`/menu/${product.id}`}>
                     <Button className="w-full mt-4">View & Order</Button>
                   </Link>
                 </CardContent>
