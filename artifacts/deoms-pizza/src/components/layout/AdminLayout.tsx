@@ -24,7 +24,8 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const handleLogout = () => {
     logout.mutate(undefined, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: getGetMeQueryKey() });
+        queryClient.setQueryData(getGetMeQueryKey(), null);
+        queryClient.clear();
         setLocation("/");
       }
     });

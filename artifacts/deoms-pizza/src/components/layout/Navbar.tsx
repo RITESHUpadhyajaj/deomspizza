@@ -16,11 +16,12 @@ export function Navbar() {
   const handleLogout = () => {
     logout.mutate(undefined, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: getGetMeQueryKey() });
+        queryClient.setQueryData(getGetMeQueryKey(), null);
+        queryClient.clear();
         setLocation("/");
       }
-    })
-  }
+    });
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -59,7 +60,7 @@ export function Navbar() {
                   <Button variant="outline" size="sm">Admin</Button>
                 </Link>
               )}
-              <Button variant="ghost" size="icon" onClick={handleLogout}>
+              <Button variant="ghost" size="icon" onClick={handleLogout} disabled={logout.isPending}>
                 <LogOut className="w-5 h-5" />
               </Button>
             </>
