@@ -1,0 +1,103 @@
+Build a complete Android food delivery app and web app named "DEOMS PIZZA". The design should be modern, colorful and similar to Bun Burst style, with smooth animations and a professional UI. The app should be ready for Play Store publishing.
+
+Main Branch Address:
+Surajpur, Greater Noida, Gautam Buddha Nagar, Uttar Pradesh, India.
+
+Customer Features:
+1. Home page with banner, categories and offers.
+2. Menu categories:
+   - Pizza
+   - Burger
+   - Sandwich
+   - Beverages
+   - Desserts
+
+Pizza Menu:
+- Onion Pizza
+- Tomato Pizza
+- Paneer Pizza
+
+Pizza Size Options:
+- Small
+- Medium
+- Large
+
+Burger Menu:
+- Veg Burger
+- Paneer Burger
+
+Sandwich Menu:
+- Veg Sandwich
+- Cheese Sandwich
+
+Dessert:
+- Lava Cake
+
+Drinks:
+- Cold Coffee
+
+For every item add image, description and price.
+
+Cart Features:
+- Add to cart
+- Increase quantity
+- Remove item
+- Apply coupon code
+- Order summary
+
+Checkout Page:
+Customer should enter:
+- Full Name
+- Mobile Number
+- Complete Delivery Address
+- Landmark
+- Pincode
+- Special Instructions
+
+Delivery Address must be editable and customers should be able to enter any address where they want delivery.
+
+Payment Methods:
+1. Cash On Delivery (COD)
+2. Paytm
+3. Online payment section should allow me to add Paytm details later.
+
+Order Tracking:
+- Order Received
+- Preparing
+- Out For Delivery
+- Delivered
+
+Owner Section:
+Create an Admin Dashboard where I can:
+- Add products
+- Edit prices
+- Upload product images
+- View orders
+- Accept or reject orders
+- Change order status
+- View customer details
+- Add offer banners
+- Add owner's phone number later from settings
+
+Contact Page:
+Show:
+- Shop Address: Surajpur, Greater Noida, Gautam Buddha Nagar, Uttar Pradesh.
+- Owner Mobile Number (editable from admin panel)
+- WhatsApp button
+- Call button
+
+Extra Features:
+- User Login and Signup
+- Search food
+- Favorites/Wishlist
+- Order history
+- Notifications
+- Dark mode
+- Responsive design
+- Fast loading
+- Firebase backend and database
+- Secure authentication
+- Push notifications
+- Professional logo with "DEOMS PIZZA"
+
+Generate complete source code with modern UI and make it production-ready so that it can be built into APK/AAB and published on Google Play Store.

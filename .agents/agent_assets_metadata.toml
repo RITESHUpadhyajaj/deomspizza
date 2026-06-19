@@ -1,0 +1,32 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "tt-tW2NgZWitxZTe7A962"
+uri = "file://artifacts/deoms-pizza/public/images/banner-1.png"
+type = "image"
+title = "Delicious hero pizza banner"
+
+[[generated]]
+id = "kbo7znR2HZQbeDWSNwRCw"
+uri = "file://artifacts/deoms-pizza/public/images/pizza-1.png"
+type = "image"
+title = "Pepperoni pizza slice"
+
+[[generated]]
+id = "WXEyJhUo_GAuag3nUzVbt"
+uri = "file://artifacts/deoms-pizza/public/images/burger-1.png"
+type = "image"
+title = "Juicy cheeseburger"
+
+[[generated]]
+id = "KKCEVNURB-EcOb-Se8I-m"
+uri = "file://artifacts/deoms-pizza/public/images/sandwich-1.png"
+type = "image"
+title = "Club sandwich"
+
+[[generated]]
+id = "bH6vkvzgoiHKnNkT7vXyd"
+uri = "file://artifacts/deoms-pizza/public/images/dessert-1.png"
+type = "image"
+title = "Chocolate lava cake"

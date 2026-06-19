@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "DEOMS PIZZA"
+version = "1.0.0"
+id = "artifacts/deoms-pizza"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20141
+
+[services.development]
+run = "pnpm --filter @workspace/deoms-pizza run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/deoms-pizza", "run", "build" ]
+publicDir = "artifacts/deoms-pizza/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20141"
+BASE_PATH = "/"
