@@ -4,6 +4,7 @@ import { LayoutDashboard, Package, ShoppingBag, Image as ImageIcon, Settings, Lo
 import { Button } from "@/components/ui/button";
 import { useLogout, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const { data: user, isLoading } = useGetMe({ query: { retry: false }});
@@ -11,12 +12,14 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const logout = useLogout();
   const queryClient = useQueryClient();
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  useEffect(() => {
+    if (!isLoading && (!user || user.role !== 'admin')) {
+      setLocation("/login");
+    }
+  }, [isLoading, user, setLocation]);
 
-  if (!user || user.role !== 'admin') {
-    setLocation("/login");
-    return null;
-  }
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center">Loading…</div>;
+  if (!user || user.role !== 'admin') return null;
 
   const handleLogout = () => {
     logout.mutate(undefined, {
