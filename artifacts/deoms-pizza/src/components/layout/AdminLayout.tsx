@@ -1,6 +1,7 @@
 import { useGetMe } from "@workspace/api-client-react";
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Package, ShoppingBag, Image as ImageIcon, Settings, LogOut, Pizza } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Image as ImageIcon, Settings, LogOut } from "lucide-react";
+import { DeomLogo } from "@/components/DeomLogo";
 import { Button } from "@/components/ui/button";
 import { useLogout, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -45,9 +46,12 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside className="w-full md:w-64 bg-card border-r flex flex-col">
         <div className="h-16 flex items-center px-6 border-b">
-          <Link href="/" className="flex items-center gap-2 font-bold text-2xl text-primary font-sans italic tracking-tighter">
-            <Pizza className="w-6 h-6" />
-            DEOMS Admin
+          <Link href="/" className="flex items-center gap-2 group">
+            <DeomLogo className="w-9 h-9 transition-transform group-hover:scale-105" />
+            <div className="flex flex-col leading-none">
+              <span className="font-black italic tracking-tighter text-lg text-primary uppercase">Deoms</span>
+              <span className="text-[9px] font-semibold tracking-widest text-muted-foreground uppercase">Admin Panel</span>
+            </div>
           </Link>
         </div>
         <nav className="flex-1 py-4 px-3 space-y-1">

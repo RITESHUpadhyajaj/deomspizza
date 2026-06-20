@@ -1,10 +1,11 @@
 import { useGetMe, getGetMeQueryKey } from "@workspace/api-client-react";
 import { Link, useLocation } from "wouter";
-import { ShoppingCart, Heart, LogOut, Pizza, Moon, Sun } from "lucide-react";
+import { ShoppingCart, Heart, LogOut, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useLogout } from "@workspace/api-client-react";
 import { useTheme } from "../ThemeProvider";
+import { DeomLogo } from "@/components/DeomLogo";
 
 export function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,9 +28,12 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-2xl text-primary font-sans italic tracking-tighter">
-          <Pizza className="w-8 h-8" />
-          DEOMS
+        <Link href="/" className="flex items-center gap-1.5 group">
+          <DeomLogo className="w-10 h-10 transition-transform group-hover:scale-105" />
+          <div className="flex flex-col leading-none">
+            <span className="font-black italic tracking-tighter text-xl text-primary uppercase">Deoms</span>
+            <span className="text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">Pizza</span>
+          </div>
         </Link>
         <div className="hidden md:flex gap-6 items-center">
           <Link href="/menu" className="text-sm font-medium hover:text-primary transition-colors">Menu</Link>

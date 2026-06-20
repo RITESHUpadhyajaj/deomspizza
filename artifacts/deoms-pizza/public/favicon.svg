@@ -1,3 +1,27 @@
 <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="180" height="180" rx="36" fill="#FF3C00"/>
+  <!-- Background rounded square -->
+  <rect width="180" height="180" rx="40" fill="#C8102E"/>
+
+  <!-- Pizza circle base -->
+  <circle cx="90" cy="95" r="58" fill="#F5A623"/>
+  <circle cx="90" cy="95" r="52" fill="#E8C46A"/>
+
+  <!-- Crust ring -->
+  <circle cx="90" cy="95" r="58" fill="none" stroke="#C8102E" stroke-width="10"/>
+
+  <!-- Pizza slice lines -->
+  <line x1="90" y1="43" x2="90" y2="147" stroke="#C8102E" stroke-width="2.5" stroke-dasharray="4 3"/>
+  <line x1="39" y1="68" x2="141" y2="122" stroke="#C8102E" stroke-width="2.5" stroke-dasharray="4 3"/>
+  <line x1="39" y1="122" x2="141" y2="68" stroke="#C8102E" stroke-width="2.5" stroke-dasharray="4 3"/>
+
+  <!-- Toppings (circles representing pepperoni/veggies) -->
+  <circle cx="90" cy="76" r="7" fill="#C8102E" opacity="0.85"/>
+  <circle cx="73" cy="98" r="6" fill="#C8102E" opacity="0.85"/>
+  <circle cx="107" cy="98" r="6" fill="#C8102E" opacity="0.85"/>
+  <circle cx="85" cy="115" r="5" fill="#C8102E" opacity="0.75"/>
+  <circle cx="100" cy="115" r="5" fill="#C8102E" opacity="0.75"/>
+
+  <!-- Letter D overlay at top -->
+  <rect x="62" y="18" width="56" height="38" rx="12" fill="#C8102E"/>
+  <text x="90" y="45" font-family="Georgia, serif" font-size="30" font-weight="900" fill="white" text-anchor="middle" font-style="italic">D</text>
 </svg>
