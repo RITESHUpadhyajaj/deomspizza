@@ -77,6 +77,24 @@ export default function Cart() {
               <Card>
                 <CardContent className="p-6">
                   <h3 className="font-bold text-xl mb-4">Order Summary</h3>
+                  {/* Free delivery progress */}
+                  {cart.subtotal < 250 ? (
+                    <div className="mb-5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800">
+                      <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mb-2">
+                        Add ₹{250 - cart.subtotal} more for <span className="text-green-600 dark:text-green-400">FREE delivery!</span>
+                      </p>
+                      <div className="h-2 rounded-full bg-amber-200 dark:bg-amber-900 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-amber-400 to-green-500 transition-all duration-500"
+                          style={{ width: `${Math.min((cart.subtotal / 250) * 100, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mb-5 p-3 rounded-xl bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 text-center">
+                      <p className="text-xs font-bold text-green-700 dark:text-green-400">🎉 You've unlocked FREE delivery!</p>
+                    </div>
+                  )}
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between text-muted-foreground">
                       <span>Subtotal</span>
@@ -90,7 +108,11 @@ export default function Cart() {
                     )}
                     <div className="flex justify-between text-muted-foreground">
                       <span>Delivery Fee</span>
-                      <span>₹{cart.deliveryFee}</span>
+                      {cart.deliveryFee === 0 ? (
+                        <span className="text-green-600 font-semibold">FREE</span>
+                      ) : (
+                        <span>₹{cart.deliveryFee}</span>
+                      )}
                     </div>
                     <div className="border-t pt-3 flex justify-between font-bold text-xl">
                       <span>Total</span>

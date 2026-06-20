@@ -133,7 +133,11 @@ export default function Checkout() {
                   </div>
                   <div className="flex justify-between text-muted-foreground text-sm">
                     <span>Delivery Fee</span>
-                    <span>₹{cart.deliveryFee}</span>
+                    {cart.deliveryFee === 0 ? (
+                      <span className="text-green-600 font-semibold">FREE</span>
+                    ) : (
+                      <span>₹{cart.deliveryFee}</span>
+                    )}
                   </div>
                   <div className="border-t pt-2 flex justify-between font-bold text-xl mt-2">
                     <span>Total</span>

@@ -3,7 +3,8 @@ import { db } from "@workspace/db";
 import { cartItemsTable, productsTable } from "@workspace/db";
 import { eq, and } from "drizzle-orm";
 
-const DELIVERY_FEE = 40;
+const BASE_DELIVERY_FEE = 40;
+const FREE_DELIVERY_THRESHOLD = 250;
 
 const router = Router();
 
@@ -31,7 +32,7 @@ async function buildCart(userId: number) {
   }));
 
   const subtotal = cartItems.reduce((sum, i) => sum + i.totalPrice, 0);
-  const deliveryFee = subtotal > 0 ? DELIVERY_FEE : 0;
+  const deliveryFee = subtotal > 0 ? (subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : BASE_DELIVERY_FEE) : 0;
   const total = subtotal + deliveryFee;
 
   return {

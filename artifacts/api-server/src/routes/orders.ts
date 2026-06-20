@@ -61,8 +61,10 @@ router.post("/orders", async (req, res) => {
       return res.status(400).json({ error: "Cart is empty" });
     }
 
-    const DELIVERY_FEE = 40;
+    const FREE_DELIVERY_THRESHOLD = 250;
+    const BASE_DELIVERY_FEE = 40;
     const subtotal = cartItems.reduce((sum, i) => sum + parseFloat(String(i.unitPrice)) * i.quantity, 0);
+    const DELIVERY_FEE = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : BASE_DELIVERY_FEE;
     let discount = 0;
     if (couponCode) {
       const coupons: Record<string, number> = { "WELCOME10": 10, "PIZZA20": 20, "DEOMS50": 50 };
