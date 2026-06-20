@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { cartItemsTable, productsTable } from "@workspace/db";
-import { eq, and } from "drizzle-orm";
+import { cartItemsTable, productsTable, couponsTable, ordersTable } from "@workspace/db";
+import { eq, and, count } from "drizzle-orm";
 
 const BASE_DELIVERY_FEE = 40;
 const FREE_DELIVERY_THRESHOLD = 250;
@@ -150,18 +150,58 @@ router.delete("/cart/items/:id", async (req, res) => {
 
 // POST /cart/coupon
 router.post("/cart/coupon", async (req, res) => {
+  const userId = (req.session as any)?.userId;
   const { code } = req.body;
-  // Simple coupon logic — can be extended
-  const coupons: Record<string, number> = {
-    "WELCOME10": 10,
-    "PIZZA20": 20,
-    "DEOMS50": 50,
-  };
-  const discount = coupons[code?.toUpperCase()];
-  if (discount) {
-    return res.json({ valid: true, discount, message: `Coupon applied! You save ₹${discount}` });
+  if (!code) return res.json({ valid: false, discount: 0, message: "Please enter a coupon code" });
+
+  try {
+    const [coupon] = await db
+      .select()
+      .from(couponsTable)
+      .where(eq(couponsTable.code, String(code).toUpperCase().trim()));
+
+    if (!coupon || !coupon.isActive) {
+      return res.json({ valid: false, discount: 0, message: "Invalid or expired coupon code" });
+    }
+
+    // Check usage restriction
+    if (userId && coupon.usageRestriction !== "none") {
+      const [{ orderCount }] = await db
+        .select({ orderCount: count() })
+        .from(ordersTable)
+        .where(eq(ordersTable.userId, userId));
+
+      const numOrders = Number(orderCount);
+      if (coupon.usageRestriction === "first_order" && numOrders > 0) {
+        return res.json({ valid: false, discount: 0, message: "This code is only for first-time orders" });
+      }
+      if (coupon.usageRestriction === "second_order" && numOrders !== 1) {
+        return res.json({ valid: false, discount: 0, message: "This code is only for your second order" });
+      }
+    } else if (!userId && coupon.usageRestriction !== "none") {
+      return res.json({ valid: false, discount: 0, message: "Please log in to use this coupon" });
+    }
+
+    // Calculate discount amount from cart subtotal
+    const cart = userId ? await buildCart(userId) : null;
+    const subtotal = cart?.subtotal ?? 0;
+    const discountValue = parseFloat(String(coupon.discountValue));
+    const discountAmount = coupon.discountType === "percent"
+      ? parseFloat(((subtotal * discountValue) / 100).toFixed(2))
+      : discountValue;
+
+    const label = coupon.discountType === "percent" ? `${discountValue}%` : `₹${discountValue}`;
+    return res.json({
+      valid: true,
+      discount: discountAmount,
+      message: `Coupon applied! You save ${label}`,
+      discountType: coupon.discountType,
+      discountValue,
+    });
+  } catch (err) {
+    req.log.error(err);
+    return res.status(500).json({ error: "Server error" });
   }
-  return res.json({ valid: false, discount: 0, message: "Invalid coupon code" });
 });
 
 export default router;

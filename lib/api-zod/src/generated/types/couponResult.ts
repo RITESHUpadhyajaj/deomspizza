@@ -10,4 +10,6 @@ export interface CouponResult {
   valid: boolean;
   discount: number;
   message: string;
+  discountType?: string;
+  discountValue?: number;
 }

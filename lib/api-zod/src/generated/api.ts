@@ -386,6 +386,33 @@ export const RemoveCartItemResponse = zod.object({
 
 
 /**
+ * @summary List all active coupons
+ */
+export const ListCouponsResponseItem = zod.object({
+  "id": zod.number(),
+  "code": zod.string(),
+  "discountType": zod.enum(['percent', 'flat']),
+  "discountValue": zod.number(),
+  "usageRestriction": zod.enum(['none', 'first_order', 'second_order']),
+  "isActive": zod.boolean(),
+  "createdAt": zod.string()
+})
+export const ListCouponsResponse = zod.array(ListCouponsResponseItem)
+
+
+/**
+ * @summary Create a new coupon (admin)
+ */
+export const CreateCouponBody = zod.object({
+  "code": zod.string(),
+  "discountType": zod.enum(['percent', 'flat']),
+  "discountValue": zod.number(),
+  "usageRestriction": zod.enum(['none', 'first_order', 'second_order']),
+  "isActive": zod.boolean().optional()
+})
+
+
+/**
  * @summary Apply coupon to cart
  */
 export const ApplyCouponBody = zod.object({
@@ -395,7 +422,9 @@ export const ApplyCouponBody = zod.object({
 export const ApplyCouponResponse = zod.object({
   "valid": zod.boolean(),
   "discount": zod.number(),
-  "message": zod.string()
+  "message": zod.string(),
+  "discountType": zod.string().optional(),
+  "discountValue": zod.number().optional()
 })
 
 

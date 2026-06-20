@@ -23,6 +23,7 @@ import AdminOrders from "@/pages/admin/orders";
 import AdminProducts from "@/pages/admin/products";
 import AdminBanners from "@/pages/admin/banners";
 import AdminSettings from "@/pages/admin/settings";
+import AdminCoupons from "@/pages/admin/coupons";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ function Router() {
       <Route path="/admin/orders" component={AdminOrders} />
       <Route path="/admin/products" component={AdminProducts} />
       <Route path="/admin/banners" component={AdminBanners} />
+      <Route path="/admin/coupons" component={AdminCoupons} />
       <Route path="/admin/settings" component={AdminSettings} />
       
       <Route component={NotFound} />

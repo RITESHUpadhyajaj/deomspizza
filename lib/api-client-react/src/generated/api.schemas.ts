@@ -168,6 +168,58 @@ export interface CartItemUpdate {
   quantity: number;
 }
 
+export type CouponDiscountType = typeof CouponDiscountType[keyof typeof CouponDiscountType];
+
+
+export const CouponDiscountType = {
+  percent: 'percent',
+  flat: 'flat',
+} as const;
+
+export type CouponUsageRestriction = typeof CouponUsageRestriction[keyof typeof CouponUsageRestriction];
+
+
+export const CouponUsageRestriction = {
+  none: 'none',
+  first_order: 'first_order',
+  second_order: 'second_order',
+} as const;
+
+export interface Coupon {
+  id: number;
+  code: string;
+  discountType: CouponDiscountType;
+  discountValue: number;
+  usageRestriction: CouponUsageRestriction;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export type CouponInputDiscountType = typeof CouponInputDiscountType[keyof typeof CouponInputDiscountType];
+
+
+export const CouponInputDiscountType = {
+  percent: 'percent',
+  flat: 'flat',
+} as const;
+
+export type CouponInputUsageRestriction = typeof CouponInputUsageRestriction[keyof typeof CouponInputUsageRestriction];
+
+
+export const CouponInputUsageRestriction = {
+  none: 'none',
+  first_order: 'first_order',
+  second_order: 'second_order',
+} as const;
+
+export interface CouponInput {
+  code: string;
+  discountType: CouponInputDiscountType;
+  discountValue: number;
+  usageRestriction: CouponInputUsageRestriction;
+  isActive?: boolean;
+}
+
 export interface CouponApply {
   code: string;
 }
@@ -176,6 +228,8 @@ export interface CouponResult {
   valid: boolean;
   discount: number;
   message: string;
+  discountType?: string;
+  discountValue?: number;
 }
 
 export interface OrderItem {

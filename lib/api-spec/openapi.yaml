@@ -411,6 +411,40 @@ paths:
               schema:
                 $ref: "#/components/schemas/Cart"
 
+  /coupons:
+    get:
+      operationId: listCoupons
+      tags: [coupons]
+      summary: List all active coupons
+      responses:
+        "200":
+          description: Active coupons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Coupon"
+
+  /admin/coupons:
+    post:
+      operationId: createCoupon
+      tags: [admin]
+      summary: Create a new coupon (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CouponInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+
   /cart/coupon:
     post:
       operationId: applyCoupon
@@ -913,6 +947,44 @@ components:
         quantity:
           type: integer
 
+    Coupon:
+      type: object
+      required: [id, code, discountType, discountValue, usageRestriction, isActive, createdAt]
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        discountType:
+          type: string
+          enum: [percent, flat]
+        discountValue:
+          type: number
+        usageRestriction:
+          type: string
+          enum: [none, first_order, second_order]
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+
+    CouponInput:
+      type: object
+      required: [code, discountType, discountValue, usageRestriction]
+      properties:
+        code:
+          type: string
+        discountType:
+          type: string
+          enum: [percent, flat]
+        discountValue:
+          type: number
+        usageRestriction:
+          type: string
+          enum: [none, first_order, second_order]
+        isActive:
+          type: boolean
+
     CouponApply:
       type: object
       required: [code]
@@ -930,6 +1002,10 @@ components:
           type: number
         message:
           type: string
+        discountType:
+          type: string
+        discountValue:
+          type: number
 
     OrderItem:
       type: object

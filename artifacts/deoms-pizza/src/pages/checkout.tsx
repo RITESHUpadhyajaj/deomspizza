@@ -1,4 +1,4 @@
-import { useGetCart, useCreateOrder, getGetCartQueryKey, getListMyOrdersQueryKey } from "@workspace/api-client-react";
+import { useGetCart, useCreateOrder, getGetCartQueryKey, getListMyOrdersQueryKey, useApplyCoupon } from "@workspace/api-client-react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,17 +6,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useState } from "react";
-import { useLocation } from "wouter";
+import { useState, useEffect } from "react";
+import { useLocation, useSearch } from "wouter";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Checkout() {
   const { data: cart } = useGetCart();
   const createOrder = useCreateOrder();
+  const applyCoupon = useApplyCoupon();
   const [_, setLocation] = useLocation();
+  const search = useSearch();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+
+  const params = new URLSearchParams(search);
+  const urlCoupon = params.get("coupon") ?? "";
+
+  const [couponCode, setCouponCode] = useState(urlCoupon);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [couponMsg, setCouponMsg] = useState("");
+  const [couponValidated, setCouponValidated] = useState(false);
 
   const [formData, setFormData] = useState({
     customerName: "",
@@ -28,6 +38,22 @@ export default function Checkout() {
     paymentMethod: "cod" as "cod" | "paytm" | "online"
   });
 
+  // Auto-validate coupon from URL
+  useEffect(() => {
+    if (urlCoupon && cart && cart.items.length > 0 && !couponValidated) {
+      applyCoupon.mutate({ data: { code: urlCoupon } }, {
+        onSuccess: (result) => {
+          if (result.valid) {
+            setCouponDiscount(result.discount);
+            setCouponMsg(result.message);
+            setCouponValidated(true);
+          }
+        }
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlCoupon, cart]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -36,7 +62,12 @@ export default function Checkout() {
     e.preventDefault();
     if (!cart || cart.items.length === 0) return;
 
-    createOrder.mutate({ data: formData }, {
+    createOrder.mutate({
+      data: {
+        ...formData,
+        ...(couponCode ? { couponCode } : {}),
+      }
+    }, {
       onSuccess: (order) => {
         queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
         queryClient.invalidateQueries({ queryKey: getListMyOrdersQueryKey() });
@@ -52,6 +83,10 @@ export default function Checkout() {
   if (!cart || cart.items.length === 0) {
     return <MainLayout><div className="container py-16 text-center">Your cart is empty.</div></MainLayout>;
   }
+
+  const subtotal = cart.subtotal;
+  const deliveryFee = cart.deliveryFee;
+  const finalTotal = Math.max(0, subtotal + deliveryFee - couponDiscount);
 
   return (
     <MainLayout>
@@ -104,7 +139,7 @@ export default function Checkout() {
                   </RadioGroup>
 
                   <Button type="submit" size="lg" className="w-full mt-6 rounded-full" disabled={createOrder.isPending}>
-                    {createOrder.isPending ? "Processing..." : `Place Order (₹${cart.total})`}
+                    {createOrder.isPending ? "Processing..." : `Place Order (₹${finalTotal})`}
                   </Button>
                 </form>
               </CardContent>
@@ -129,21 +164,30 @@ export default function Checkout() {
                 <div className="border-t pt-4 space-y-2">
                   <div className="flex justify-between text-muted-foreground text-sm">
                     <span>Subtotal</span>
-                    <span>₹{cart.subtotal}</span>
+                    <span>₹{subtotal}</span>
                   </div>
+                  {couponDiscount > 0 && (
+                    <div className="flex justify-between text-green-600 text-sm font-medium">
+                      <span>Coupon ({couponCode})</span>
+                      <span>-₹{couponDiscount}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-muted-foreground text-sm">
                     <span>Delivery Fee</span>
-                    {cart.deliveryFee === 0 ? (
+                    {deliveryFee === 0 ? (
                       <span className="text-green-600 font-semibold">FREE</span>
                     ) : (
-                      <span>₹{cart.deliveryFee}</span>
+                      <span>₹{deliveryFee}</span>
                     )}
                   </div>
                   <div className="border-t pt-2 flex justify-between font-bold text-xl mt-2">
                     <span>Total</span>
-                    <span className="text-primary">₹{cart.total}</span>
+                    <span className="text-primary">₹{finalTotal}</span>
                   </div>
                 </div>
+                {couponMsg && (
+                  <div className="mt-3 text-xs text-green-600 font-medium text-center">{couponMsg}</div>
+                )}
               </CardContent>
             </Card>
           </div>

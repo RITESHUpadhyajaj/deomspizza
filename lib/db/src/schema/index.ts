@@ -7,3 +7,4 @@ export * from "./orders";
 export * from "./favorites";
 export * from "./settings";
 export * from "./sessions";
+export * from "./coupons";

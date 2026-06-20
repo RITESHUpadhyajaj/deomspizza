@@ -1,6 +1,6 @@
 import { useGetMe } from "@workspace/api-client-react";
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Package, ShoppingBag, Image as ImageIcon, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Image as ImageIcon, Settings, LogOut, Tag } from "lucide-react";
 import { DeomLogo } from "@/components/DeomLogo";
 import { Button } from "@/components/ui/button";
 import { useLogout, getGetMeQueryKey } from "@workspace/api-client-react";
@@ -38,6 +38,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     { href: "/admin/orders", label: "Orders", icon: ShoppingBag },
     { href: "/admin/products", label: "Products", icon: Package },
     { href: "/admin/banners", label: "Banners", icon: ImageIcon },
+    { href: "/admin/coupons", label: "Coupons", icon: Tag },
     { href: "/admin/settings", label: "Settings", icon: Settings },
   ];
 

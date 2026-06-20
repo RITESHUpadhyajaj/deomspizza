@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { ordersTable, orderItemsTable, cartItemsTable, productsTable, usersTable } from "@workspace/db";
-import { eq, desc, sql } from "drizzle-orm";
+import { ordersTable, orderItemsTable, cartItemsTable, productsTable, usersTable, couponsTable } from "@workspace/db";
+import { eq, desc, sql, count } from "drizzle-orm";
 
 const router = Router();
 
@@ -67,8 +67,16 @@ router.post("/orders", async (req, res) => {
     const DELIVERY_FEE = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : BASE_DELIVERY_FEE;
     let discount = 0;
     if (couponCode) {
-      const coupons: Record<string, number> = { "WELCOME10": 10, "PIZZA20": 20, "DEOMS50": 50 };
-      discount = coupons[couponCode.toUpperCase()] ?? 0;
+      const [coupon] = await db
+        .select()
+        .from(couponsTable)
+        .where(eq(couponsTable.code, String(couponCode).toUpperCase().trim()));
+      if (coupon && coupon.isActive) {
+        const discountValue = parseFloat(String(coupon.discountValue));
+        discount = coupon.discountType === "percent"
+          ? parseFloat(((subtotal * discountValue) / 100).toFixed(2))
+          : discountValue;
+      }
     }
     const total = subtotal + DELIVERY_FEE - discount;
 
